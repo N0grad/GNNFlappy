@@ -42,7 +42,7 @@ public class FlappyBird extends KeyAdapter implements ActionListener{
 	
 	public void go() {
 		
-		//Création du tableau graphique des stats
+		//CrÃ©ation du tableau graphique des stats
 		this.chart = new FrameStats();
 		
 		//Creation Frame
@@ -67,7 +67,7 @@ public class FlappyBird extends KeyAdapter implements ActionListener{
 		//Afichage
 		this.frame.setVisible(true);
 
-		//Création et run du timer (1000 secondes divisé par 60 frames par secondes)
+		//CrÃ©ation et run du timer (1000 secondes divisÃ© par 60 frames par secondes)
 		t = new Timer(10, this);
 		t.start();
 	}
@@ -75,7 +75,7 @@ public class FlappyBird extends KeyAdapter implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		//Si une distance de 90px a été parcouru on ajoute deux nouveaux rectangles (haut et bas)
+		//Si une distance de 90px a Ã©tÃ© parcouru on ajoute deux nouveaux rectangles (haut et bas)
 		if (scroll % 90 == 0) {
 			Rectangle r = new Rectangle(WIDTH, 0, GamePanel.PIPE_W, (int) (( Math.random() * HEIGHT) / 5f + (0.175f) * HEIGHT));
 			int h2 = (int) (( Math.random() * HEIGHT) / 5f + (0.175f) * HEIGHT);
@@ -120,14 +120,14 @@ public class FlappyBird extends KeyAdapter implements ActionListener{
 		double distanceHorizontal = lePlusProcheRectHaut.getMaxX() - tabBirds[0].getPosX();
 		distanceHorizontal /= 370.0;
 
-		//Variable dans le calcul de la différence de hauteur (millieu de l'oiseau et millieu du trou)
+		//Variable dans le calcul de la diffÃ©rence de hauteur (millieu de l'oiseau et millieu du trou)
 		double milieuDuTrou = (lePlusProcheRectBas.getY() + lePlusProcheRectHaut.getMaxY()) / 2.0;
 		
-		//L'oiseau joue puis on lui applique la gravité
+		//L'oiseau joue puis on lui applique la gravitÃ©
 		for (Individu bird : tabBirds) {
 			if (bird.getVivant()) {
 				
-				//Calcul la différence de hauter (milieu oiseau - milieu trou) + normalisation
+				//Calcul la diffÃ©rence de hauter (milieu oiseau - milieu trou) + normalisation
 				double differenceDeHauteur = bird.getPosY() + (bird.getLargeur() / 2.0) - milieuDuTrou;
 				differenceDeHauteur /= 269.5;
 
@@ -140,11 +140,11 @@ public class FlappyBird extends KeyAdapter implements ActionListener{
 		//Update du panel
 		this.panel.repaint();
 
-		//ArrayList contenant les rectangles à enlever
+		//ArrayList contenant les rectangles Ã  enlever
 		ArrayList<Rectangle> toRemove = new ArrayList<Rectangle>();
 		
-		//Pour tous les rectangles présents dans la liste des tuayx, on les fait reculer de 3 px :
-		//- Si le tuyaux est hors champs, on l'ajotue dans ce à enlever
+		//Pour tous les rectangles prÃ©sents dans la liste des tuayx, on les fait reculer de 3 px :
+		//- Si le tuyaux est hors champs, on l'ajotue dans ce Ã  enlever
 		//- Si le tuyaux contient l'oiseau, boolean true de fin de partie	
 		for (Rectangle r : rects) {
 			r.x -= 3;
@@ -154,29 +154,28 @@ public class FlappyBird extends KeyAdapter implements ActionListener{
 			
 			else {
 
-				//si l'oiseau est disposé de façon qu'il peut toucher l'un des deux tuyaux --> On check TOUS les birds vivants
+				//si l'oiseau est disposÃ© de faÃ§on qu'il peut toucher l'un des deux tuyaux --> On check TOUS les birds vivants
 				Individu unBirdCheck = this.tabBirds[0];
 				if (unBirdCheck.getPosX() + (unBirdCheck.getLongueur() / 1.2) >= r.getX() && unBirdCheck.getPosX() <= r.getMaxX()) {
 					for (Individu bird : tabBirds) {
 						
 						if (bird.getVivant()) {
 								
-							//check si il a touché le tuyau du haut
+							//check si il a touchÃ© le tuyau du haut
 							if (r.getY() == 0) {
 								if ((bird.getPosY() - 25) < r.getMaxY()) {
 									bird.setVivant(false);
 									bird.setPoint(this.getScore() + Math.abs((int) (lePlusProcheRectHaut.getMaxY() - bird.getPosY())));
 								}
 							}
-							//check si il a touché le tuyau du bas
+							//check si il a touchÃ© le tuyau du bas
 							else if((bird.getPosY() + bird.getLargeur()) > r.getY()) {
 								bird.setVivant(false);
 								bird.setPoint(this.getScore() + Math.abs((int) (lePlusProcheRectBas.getY() - bird.getPosY())));
 							}
 							
 							if (bird.getPoint() > CONDITIONARRET) {
-								System.out.println("Arrêt simulation - Max Score : "+bird.getPoint());
-								Projection.writeAndLoad(bird.getLeCerveau(),270.0 * (-1.0), 270.0, 0.0, 370.0);;
+								System.out.println("ArrÃªt simulation - Max Score : "+bird.getPoint());
 								System.exit(1);
 							}
 						}
@@ -185,7 +184,7 @@ public class FlappyBird extends KeyAdapter implements ActionListener{
 			}
 		}
 
-		//check si il s'est mangé le plafond ou le sol
+		//check si il s'est mangÃ© le plafond ou le sol
 		for (Individu bird : tabBirds) {
 			
 			if (bird.getVivant()) {
@@ -198,14 +197,14 @@ public class FlappyBird extends KeyAdapter implements ActionListener{
 			}
 		}
 
-		//On enlève les tuyaux hors champ
+		//On enlÃ¨ve les tuyaux hors champ
 		rects.removeAll(toRemove);
 		
-		//Incrémentation du temps et de la distance parcouru
+		//IncrÃ©mentation du temps et de la distance parcouru
 		time+=1000;
 		scroll++;
 		
-		//Si tous morts, on reste : on enlève tous les rectangles, on fait la prochaine gen, on reset le tps et distance parcouru
+		//Si tous morts, on reste : on enlÃ¨ve tous les rectangles, on fait la prochaine gen, on reset le tps et distance parcouru
 		if (lesIndividus.tousMorts()) {
 			rects.clear();
 			this.chart.addMoyenne(this.lesIndividus.getMoyenneScore());
