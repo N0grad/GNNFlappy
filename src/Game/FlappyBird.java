@@ -12,7 +12,6 @@ import javax.swing.Timer;
 
 import Genetic.Generation;
 import Genetic.Individu;
-import Projection.Projection;
 import Statistique.FrameStats;
 
 public class FlappyBird extends KeyAdapter implements ActionListener{
